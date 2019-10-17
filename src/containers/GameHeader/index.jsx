@@ -12,7 +12,6 @@ import Actions from '../../actions';
 
 const GameHeader = () => {
   const completed = useSelector((state) => state.Game.points.completed * 5);
-  const timer = useSelector((state) => state.Game.timer);
   const dispatch = useDispatch();
   const doChange = (value) => {
     dispatch(Actions.Game.setDifficulty(value));
@@ -37,9 +36,6 @@ const GameHeader = () => {
         </Col>
         <Col>
           <Row>{`Scoring: ${completed}`}</Row>
-        </Col>
-        <Col>
-          <Row>{`Timer: ${timer}`}</Row>
         </Col>
       </Row>
     </header>

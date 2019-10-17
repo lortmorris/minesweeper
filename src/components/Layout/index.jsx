@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import GameHeader from '../../containers/GameHeader';
 import Scores from '../../containers/Scores';
+import Winner from '../Winner';
 import Actions from '../../actions';
 import propTypes from './props';
 
@@ -21,20 +22,25 @@ const Layout = ({ children }) => {
       <GameHeader />
       {children}
       <Modal
-        show={gameStatus === 'end'}
+        show={gameStatus === 'end' || gameStatus === 'winner'}
         onHide={() => newGame()}
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title"
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
-            Scores
+            {`${gameStatus === 'winner' ? 'Winner' : 'Scores'}`}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Scores
-            handleClick={newGame}
-          />
+          {gameStatus === 'end' && (
+            <Scores
+              handleClick={newGame}
+            />
+          )}
+          {gameStatus === 'winner' && (
+            <Winner />
+          )}
         </Modal.Body>
       </Modal>
     </Container>

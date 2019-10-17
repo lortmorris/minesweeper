@@ -3,7 +3,6 @@ const initialState = {
   level: 1,
   difficulty: 1,
   board: [],
-  timer: 0,
   status: 'new',
   points: {
     completed: 0,
@@ -58,6 +57,16 @@ const game = (state = initialState, action) => {
         ...state,
         board: [...action.payload.board],
         status: 'new',
+        points: {
+          completed: 0,
+          rest: 0,
+        },
+      };
+
+    case 'GAME_SET_WINNER':
+      return {
+        ...state,
+        status: 'winner',
         points: {
           completed: 0,
           rest: 0,

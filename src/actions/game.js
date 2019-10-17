@@ -60,6 +60,10 @@ export const setGamePoints = (completed, rest) => ({
   },
 });
 
+export const setWinner = () => ({
+  type: 'GAME_SET_WINNER',
+});
+
 export default {
   setLevel,
   setBoard,
@@ -70,4 +74,5 @@ export default {
   setValue,
   endGame,
   setGamePoints,
+  setWinner,
 };

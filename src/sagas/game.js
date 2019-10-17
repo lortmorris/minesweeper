@@ -85,7 +85,8 @@ export function* clickedRow(action) {
   const value = yield calculateRowValue(x, y);
   yield put(Actions.Game.setValue(x, y, value));
   yield put(Actions.Game.showCell(x, y));
-  yield checkWinner();
+  const result = yield checkWinner();
+  if (result.rest === 0) yield put(Actions.Game.setWinner());
   return false;
 }
 
@@ -131,7 +132,7 @@ function* getNextGame() {
     difficulty,
   } = state.Game;
   const total = difficulty * 5 * difficulty * 5;
-  const table = generateBoard(difficulty * 5, difficulty * 5, total * 0.2);
+  const table = generateBoard(difficulty * 5, difficulty * 5, total * 0);
   yield put(Actions.Game.setBoard(table));
 }
 export default getNextGame;
