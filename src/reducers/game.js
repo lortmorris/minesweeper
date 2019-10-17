@@ -1,10 +1,14 @@
 const initialState = {
   scoring: 0,
   level: 1,
-  points: 0,
   difficulty: 1,
   board: [],
   timer: 0,
+  status: 'new',
+  points: {
+    completed: 0,
+    rest: 0,
+  },
 };
 
 const cell = (state = {}, action) => {
@@ -32,6 +36,11 @@ const cell = (state = {}, action) => {
 
 const game = (state = initialState, action) => {
   switch (action.type) {
+    case 'GAME_SET_ENDGAME':
+      return {
+        ...state,
+        status: 'end',
+      };
     case 'GAME_SHOW_CELL':
       return {
         ...state,
@@ -48,8 +57,18 @@ const game = (state = initialState, action) => {
       return {
         ...state,
         board: [...action.payload.board],
+        status: 'new',
+        points: {
+          completed: 0,
+          rest: 0,
+        },
       };
 
+    case 'GAME_SET_POINTS':
+      return {
+        ...state,
+        points: { ...action.payload },
+      };
     case 'GAME_SET_DIFFICULTY':
       return {
         ...state,

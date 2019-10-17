@@ -4,19 +4,34 @@ import { useSelector } from 'react-redux';
 
 import {
   ListGroup,
+  Button,
+  Col,
+  Row,
 } from 'react-bootstrap';
 
-const Scores = () => {
-  const scores = useSelector((state) => state.Users.Scores);
+import props from './props';
+
+const Scores = ({
+  handleClick,
+}) => {
+  const scores = useSelector((state) => state.Users.scores);
 
   return (
-    <ListGroup>
-      {scores.map((s) => (
-        <ListGroup.Item>{`${s.name}: ${s.scoring}`}</ListGroup.Item>
-      ))}
-
-    </ListGroup>
+    <Col>
+      <Row>
+        <ListGroup>
+          {scores.map((s) => (
+            <ListGroup.Item key={`user-${s.name}`}>{`${s.name}: ${s.scoring}`}</ListGroup.Item>
+          ))}
+        </ListGroup>
+      </Row>
+      <Row>
+        <Button onClick={handleClick}>New Game</Button>
+      </Row>
+    </Col>
   );
 };
+
+Scores.propTypes = props;
 
 export default Scores;

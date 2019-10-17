@@ -8,6 +8,29 @@ import Actions from '../actions';
 
 const getRandomValue = (limit) => Math.round(Math.random() * limit);
 
+function* checkWinner() {
+  const state = yield select();
+  const { board } = state.Game;
+  const cells = [];
+  let completed = 0;
+  let rest = 0;
+  for (let y = 0; y < board.length; y += 1) {
+    for (let x = 0; x < board.length; x += 1) {
+      if (board[y][x].value > -1) cells.push(board[y][x]);
+    }
+  }
+
+  cells.forEach((c) => {
+    if (c.show) completed += 1;
+    else rest += 1;
+  });
+  yield put(Actions.Game.setGamePoints(completed, rest));
+  return {
+    completed,
+    rest,
+  };
+}
+
 function* calculateRowValue(y, x) {
   const state = yield select();
   const { board } = state.Game;
@@ -38,15 +61,13 @@ export function* clickedRow(action) {
   } = action.payload;
 
   const { board } = state.Game;
-  const cell = board[x][y];
-  console.info(x, y, board[x][y]);
+  const cell = board[y][x];
   if (cell.value === -1) {
-    console.info('is a bomb!');
     yield put(Actions.Game.showCell(x, y));
     let cells = [];
     board.forEach((cols) => {
       cols.forEach((row) => {
-        if (row.value === -1) {
+        if (row.value === -1 && row.show === false) {
           cells.push(row);
         }
       });
@@ -57,12 +78,14 @@ export function* clickedRow(action) {
       yield delay(Math.round(Math.random() * 100));
       yield put(Actions.Game.showCell(row.x, row.y));
     }
+    yield put(Actions.Game.endGame());
     return true;
   }
 
   const value = yield calculateRowValue(x, y);
   yield put(Actions.Game.setValue(x, y, value));
   yield put(Actions.Game.showCell(x, y));
+  yield checkWinner();
   return false;
 }
 
@@ -108,7 +131,7 @@ function* getNextGame() {
     difficulty,
   } = state.Game;
   const total = difficulty * 5 * difficulty * 5;
-  const table = generateBoard(difficulty * 5, difficulty * 5, total * 0.3);
+  const table = generateBoard(difficulty * 5, difficulty * 5, total * 0.2);
   yield put(Actions.Game.setBoard(table));
 }
 export default getNextGame;

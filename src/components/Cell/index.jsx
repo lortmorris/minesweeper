@@ -9,6 +9,7 @@ import props from './props';
 const Cell = ({
   onClickHandle,
   data,
+  gameStatus,
 }) => {
   const {
     value,
@@ -21,6 +22,13 @@ const Cell = ({
       <span className="game-cell fill">{`${value === -1 ? '*' : value}`}</span>
     );
   }
+
+  if (gameStatus === 'end') {
+    return (
+      <span className="game-cell" />
+    );
+  }
+
   return (
     <Button
       className="game-cell"

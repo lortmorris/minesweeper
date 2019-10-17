@@ -11,7 +11,7 @@ import {
 import Actions from '../../actions';
 
 const GameHeader = () => {
-  const scoring = useSelector((state) => state.Game.scoring);
+  const completed = useSelector((state) => state.Game.points.completed * 5);
   const timer = useSelector((state) => state.Game.timer);
   const dispatch = useDispatch();
   const doChange = (value) => {
@@ -36,7 +36,7 @@ const GameHeader = () => {
           </Form>
         </Col>
         <Col>
-          <Row>{`Scoring: ${scoring}`}</Row>
+          <Row>{`Scoring: ${completed}`}</Row>
         </Col>
         <Col>
           <Row>{`Timer: ${timer}`}</Row>

@@ -18,6 +18,7 @@ const getNextId = () => {
 
 const Board = () => {
   const boardGame = useSelector((state) => state.Game.board);
+  const gameStatus = useSelector((state) => state.Game.status);
   const dispatch = useDispatch();
 
   const onClickHandle = (x, y) => dispatch(Actions.Game.clickCell(x, y));
@@ -33,6 +34,7 @@ const Board = () => {
                 <Cell
                   data={row}
                   onClickHandle={onClickHandle}
+                  gameStatus={gameStatus}
                 />
               </Row>
             ))}

@@ -1,37 +1,40 @@
-import React, {
-  useState,
-} from 'react';
+import React from 'react';
 
 import {
   Container,
   Modal,
 } from 'react-bootstrap';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import GameHeader from '../../containers/GameHeader';
 import Scores from '../../containers/Scores';
-
+import Actions from '../../actions';
 import propTypes from './props';
 
 const Layout = ({ children }) => {
-  const [show, setShow] = useState(false);
-
+  const gameStatus = useSelector((state) => state.Game.status);
+  const dispatch = useDispatch();
+  const newGame = () => dispatch(Actions.Game.getNextGame());
   return (
     <Container>
       <GameHeader />
       {children}
       <Modal
-        show={show}
-        onHide={() => setShow(false)}
+        show={gameStatus === 'end'}
+        onHide={() => newGame()}
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title"
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
-            New Domain
+            Scores
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Scores />
+          <Scores
+            handleClick={newGame}
+          />
         </Modal.Body>
       </Modal>
     </Container>

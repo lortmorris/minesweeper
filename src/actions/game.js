@@ -48,6 +48,17 @@ export const showCell = (x, y) => ({
   },
 });
 
+export const endGame = () => ({
+  type: 'GAME_SET_ENDGAME',
+});
+
+export const setGamePoints = (completed, rest) => ({
+  type: 'GAME_SET_POINTS',
+  payload: {
+    completed,
+    rest,
+  },
+});
 
 export default {
   setLevel,
@@ -57,4 +68,6 @@ export default {
   getNextGame,
   setDifficulty,
   setValue,
+  endGame,
+  setGamePoints,
 };
