@@ -132,7 +132,7 @@ function* getNextGame() {
     difficulty,
   } = state.Game;
   const total = difficulty * 5 * difficulty * 5;
-  const table = generateBoard(difficulty * 5, difficulty * 5, total * 0);
+  const table = generateBoard(difficulty * 5, difficulty * 5, total * 0.2);
   yield put(Actions.Game.setBoard(table));
 }
 export default getNextGame;
